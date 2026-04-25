@@ -10,6 +10,9 @@ API = dotenv_values('.env')
 GMAIL_USER = API.get('GMAIL_USER')
 GMAIL_APP_PASSWORD = API.get('GMAIL_APP_PASSWORD')
 
+# 분석 텍스트를 HTML 형식으로 변환하는 함수입니다.
+# **굵은 제목**, * 불릿 포인트, | 표, 들여쓰기 코드 등 마크다운 스타일을 HTML 태그로 바꿔줍니다.
+# 이메일로 보낼 때 보기 좋게 꾸미기 위해 사용됩니다.
 def convert_to_html_markdown(text_content):
     """Convert analysis text to HTML with markdown-like formatting"""
     
@@ -72,6 +75,9 @@ def convert_to_html_markdown(text_content):
     
     return html_content
 
+# 유튜브 분석 보고서를 Gmail로 이메일 전송하는 함수입니다.
+# 분석 결과 파일을 읽어 HTML 형식으로 변환한 뒤, 수신자에게 이메일을 보냅니다.
+# Gmail 앱 비밀번호(.env 파일에 설정)가 필요합니다.
 def send_analysis_email(analysis_filename, recipient_email=None):
     """Send YouTube analysis report via Gmail"""
     
@@ -150,6 +156,8 @@ def send_analysis_email(analysis_filename, recipient_email=None):
         print(f"❌ Error sending email: {str(e)}")
         return False
 
+# Gmail 서버에 실제로 접속이 되는지 연결 테스트를 하는 함수입니다.
+# 이메일 전송 전에 인증 정보가 올바른지 미리 확인할 때 사용합니다.
 def test_gmail():
     """Test Gmail connection"""
     if not GMAIL_USER or not GMAIL_APP_PASSWORD:

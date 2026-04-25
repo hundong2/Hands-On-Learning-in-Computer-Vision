@@ -5,11 +5,10 @@ from io import BytesIO
 import zipfile
 from pathlib import Path
 
+# 이미지를 WebP 형식으로 변환하고 파일 크기를 최적화하는 함수입니다.
+# 품질(quality)을 단계적으로 낮추고, 그래도 목표 크기를 초과하면 이미지 해상도를 줄입니다.
+# 반환값: (변환된 이미지 바이트, 최종 크기(KB), 사용된 품질, 크기 조정 여부)
 def process_image(image_data, filename, max_quality, min_quality, target_kb, max_kb):
-    """
-    Process individual image with quality and size optimization
-    Returns: (processed_image, final_size_kb, quality_used, resized)
-    """
     try:
         img = Image.open(BytesIO(image_data))
         original_size = len(image_data)
@@ -87,14 +86,18 @@ def process_image(image_data, filename, max_quality, min_quality, target_kb, max
     except Exception as e:
         raise Exception(f"Failed to process image {filename}: {str(e)}")
 
+# 앱의 상태를 초기화(리셋)하는 함수입니다.
+# Streamlit의 세션 상태(session_state)에 저장된 모든 데이터를 삭제하고 앱을 처음 상태로 되돌립니다.
 def reset_app():
-    """Reset all app state variables to initial values"""
     # Clear all session state
     for key in list(st.session_state.keys()):
         del st.session_state[key]
     # Ensure file uploader is cleared
     st.experimental_rerun()
 
+# Streamlit 웹 앱의 메인 실행 함수입니다.
+# 사용자가 이미지 파일을 업로드하면 WebP 형식으로 변환 및 최적화하고,
+# 결과를 ZIP 파일로 묶어 다운로드할 수 있게 해줍니다.
 def main():
     st.set_page_config(page_title="Smart Image Converter", page_icon="🖼️")
     

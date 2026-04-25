@@ -6,6 +6,8 @@ from mistralai import Mistral
 from PIL import Image
 import io
 
+# PDF 파일을 Mistral API 서버에 업로드하고, 처리에 사용할 임시 URL을 받아오는 함수입니다.
+# 파일을 임시 폴더에 저장한 뒤 업로드하고, 처리가 끝나면 임시 파일을 삭제합니다.
 def upload_pdf(client, content, filename):
     """
     Uploads a PDF to Mistral's API and retrieves a signed URL for processing.
@@ -37,6 +39,8 @@ def upload_pdf(client, content, filename):
             if os.path.exists(temp_path):
                 os.remove(temp_path)
 
+# Mistral의 OCR API를 사용해 문서(PDF 또는 이미지)에서 텍스트를 추출하는 함수입니다.
+# OCR(광학 문자 인식)이란 이미지나 PDF 속의 글자를 컴퓨터가 읽을 수 있는 텍스트로 변환하는 기술입니다.
 def process_ocr(client, document_source):
     """
     Processes a document using Mistral's OCR API.
@@ -54,6 +58,8 @@ def process_ocr(client, document_source):
         include_image_base64=True
     )
 
+# PDF 파일을 Streamlit 웹 앱 화면 안에 iframe으로 보여주는 함수입니다.
+# PDF를 base64 문자열로 인코딩해서 브라우저에서 바로 미리보기가 가능하도록 합니다.
 def display_pdf(file):
     """
     Displays a PDF in Streamlit using an iframe.
@@ -66,10 +72,10 @@ def display_pdf(file):
         pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
 
+# Streamlit 웹 앱의 메인 실행 함수입니다.
+# 사용자가 API 키를 입력하고 URL/PDF/이미지를 올리면, OCR로 텍스트를 추출해 화면에 보여줍니다.
+# 추출된 텍스트는 .txt 또는 .md 파일로 다운로드할 수 있습니다.
 def main():
-    """
-    Main function to run the Streamlit app.
-    """
     st.set_page_config(page_title="Mistral OCR Processor", layout="wide")
     
     # Sidebar: Authentication for Mistral API

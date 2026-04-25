@@ -13,6 +13,8 @@ genai.configure(api_key=GEMINI_API_KEY)
 # Initialize the model
 model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
+# JSON 파일에서 유튜브 추적 데이터를 불러오는 함수입니다.
+# 파일이 없거나 형식이 잘못된 경우 오류 메시지를 출력하고 None을 반환합니다.
 def load_youtube_data(filename):
     """Load YouTube tracking data from JSON file"""
     try:
@@ -25,6 +27,8 @@ def load_youtube_data(filename):
         print(f"Error: Invalid JSON format in {filename}")
         return None
 
+# 각 동영상의 조회수, 좋아요, 댓글 증가량과 시간당 증가율을 계산하는 함수입니다.
+# 가장 오래된 데이터와 최신 데이터를 비교해 성장 지표를 산출합니다.
 def calculate_growth_metrics(data):
     """Calculate growth metrics for each video"""
     analysis_results = {}
@@ -77,6 +81,8 @@ def calculate_growth_metrics(data):
     
     return analysis_results
 
+# Gemini AI에게 보낼 분석 요청 프롬프트(질문)를 만드는 함수입니다.
+# 동영상 성과 데이터를 사람이 읽기 좋은 형태로 정리한 뒤, AI에게 분석을 요청하는 문장을 생성합니다.
 def create_analysis_prompt(analysis_data):
     """Create a comprehensive prompt for Gemini analysis"""
     
@@ -140,6 +146,8 @@ def create_analysis_prompt(analysis_data):
     
     return prompt
 
+# 유튜브 데이터를 불러와 Gemini AI로 분석하고 결과를 텍스트 파일로 저장하는 함수입니다.
+# 데이터 로드 → 성장 지표 계산 → 프롬프트 생성 → Gemini API 호출 → 결과 저장 순으로 진행됩니다.
 def Gemini_Analysis(Json_path: str = 'youtube_tracking.json'):
     print("Loading YouTube tracking data...")
     

@@ -22,10 +22,16 @@ active = 0
 status=""
 color=(0,0,0)
 
+# 두 점(ptA, ptB) 사이의 거리를 계산하는 함수입니다.
+# 눈의 특정 좌표들 사이의 거리를 구할 때 사용합니다.
 def compute(ptA,ptB):
 	dist = np.linalg.norm(ptA - ptB)
 	return dist
 
+# 눈이 얼마나 감겨 있는지를 판단하는 함수입니다.
+# 눈의 6개 주요 랜드마크 좌표(a~f)를 받아서,
+# 눈의 세로/가로 비율(EAR)을 계산합니다.
+# 반환값: 2 = 눈 뜸(Active), 1 = 졸림(Drowsy), 0 = 눈 감음(Sleep)
 def blinked(a,b,c,d,e,f):
 	up = compute(b,d) + compute(c,e)
 	down = compute(a,f)

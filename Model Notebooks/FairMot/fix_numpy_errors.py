@@ -2,6 +2,8 @@
 import os
 import re
 
+# 하나의 Python 파일을 읽어서 구식(deprecated) NumPy 문법을 최신 문법으로 고쳐주는 함수입니다.
+# 예: np.float → float, float32 → np.float32 로 자동 변환하고, 필요하면 numpy import도 추가합니다.
 def fix_numpy_in_file(filepath):
     """Reads a file, fixes numpy deprecations, and writes back if changed."""
     with open(filepath, 'r', encoding='utf-8') as f:
@@ -32,8 +34,9 @@ def fix_numpy_in_file(filepath):
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(content)
 
+# 프로그램의 진입점(시작점) 함수입니다.
+# 'src' 폴더 안의 모든 Python 파일을 탐색하며 fix_numpy_in_file() 함수를 실행합니다.
 def main():
-    """Main function to walk through the src directory and fix files."""
     src_dir = 'src'
     if not os.path.isdir(src_dir):
         print(f'Error: Directory "{src_dir}" not found in current location.')

@@ -9,6 +9,9 @@ VIDEO_IDS = [
     # Add more video IDs here
 ]
 
+# 프로그램의 시작점이 되는 함수입니다.
+# 유튜브 데이터 수집 → Gemini AI 분석 → 이메일 전송 순서로 전체 워크플로우를 실행합니다.
+# send_email=True이면 분석 결과를 이메일로 전송하고, recipient_email로 수신자를 지정할 수 있습니다.
 def main(send_email=True, recipient_email=None):
     youtube_data_collection(VIDEO_IDS)
     
